@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<vector<int> > res; //массив ответ, состоящий из маленьких массивов вида [x, x, x, ... x, x, x]. пример: [ [1], [3, 3, 3, 3], [6 ,6], [9] ]
+
+int mediana(int a, int b, int c){//нахождение среднего из 3 элементов
+    if(((a >= b) && (b >= c)) || ((c >= b) && (b >= a)))
+        return b;
+    if(((b >= a) && (a >= c)) || ((c >= a) && (a >= b)))
+        return a;
+    if(((a >= c) && (c >= b)) || ((b >= c) && (c >= a)))
+        return c;
+
+}
+
+void quicksort(vector<int> x){//сама сортировка
+    int razdel = x[mediana(x[0], x[x.size()], x[x.size()/2])];//находим разделитель
+    if (x.size() < 3){//если слишком мало элементов, чтобы находить медиану
+        razdel = x[0];
+    }
+    vector<int> men;
+    vector<int> rav;
+    vector<int> bol;
+    for(int i = 0; i < x.size(); i++){//разделяем все элементы массива на 3 массива, те, где элементы больше разделителя, те, где равны и те, где меньше
+        if (x[i] > razdel){
+            bol.push_back(x[i]);
+        }
+        if (x[i] == razdel){
+            rav.push_back(x[i]);
+        }
+        if (x[i] < razdel){
+            men.push_back(x[i]);
+        }
+    }
+    if(men.size()){//если есть элементы меньше разделителя, то отправим их тоже в сортировку
+        quicksort(men);
+    }
+    res.push_back(rav);//массив, состоящий из элементов , равных разделителю, добавляем к массиву ответов
+    if(bol.size()){//если есть элементы больше разделителя, то отправим их тоже в сортировку
+        quicksort(bol);
+    }
+    return;
+}
+
+int main()
+{
+    int n, y;
+    cin >> n;
+    vector<int> x;//входной массив
+    for(int i = 0; i < n; i++){//считывание
+        cin >> y;
+        x.push_back(y);
+    }
+    quicksort(x);//запуск сортировки
+    for(int i = 0; i < res.size(); i++){//вывод ответа. по очереди выводим все массивы, состоящие в массиве res
+        for(int j = 0; j < res[i].size(); j++){
+            cout << res[i][j] << ' ';
+        }
+    }
+    return(0);
+}
