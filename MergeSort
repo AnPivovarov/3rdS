@@ -64,10 +64,9 @@ void mergeSort(int A[], int l, int r)
 
 void printArray(int B[], int m)
 {
-    int i;
-    for (i = 0; i < m; i++)
-        printf("%d ", B[i]);
-    printf("\n");
+   for (int i=0; i<m; ++i)
+        cout << B[i] << " ";
+    cout << "\n";
 }
  
 int main()
